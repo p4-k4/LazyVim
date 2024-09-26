@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
 local keymap = vim.keymap
 
 -- Write buffer
@@ -52,6 +48,3 @@ keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Add diagnostic
 
 -- Open code actions using the default lsp UI
 keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-
--- Open code actions for the selected visual range
-keymap.set({ "n", "v" }, "<leader>cA", vim.lsp.buf.range_code_action, { desc = "Code action for range" })
