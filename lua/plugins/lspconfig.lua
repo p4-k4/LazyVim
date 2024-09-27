@@ -11,7 +11,7 @@ return {
     local lspconfig = require("lspconfig")
 
     -- Setup for Bash Language Server
-    lspconfig.bashls.setup({})
+    -- lspconfig.bashls.setup({})
 
     -- Setup for Lua Language Server
     lspconfig.lua_ls.setup({
