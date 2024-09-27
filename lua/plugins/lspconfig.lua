@@ -9,15 +9,10 @@ return {
   },
   config = function()
     local lspconfig = require("lspconfig")
-    
-    -- Setup for Haskell Language Server
-    lspconfig.hls.setup({
-      cmd = { "haskell-language-server-wrapper", "--lsp" }
-    })
-    
+
     -- Setup for Bash Language Server
     lspconfig.bashls.setup({})
-    
+
     -- Setup for Lua Language Server
     lspconfig.lua_ls.setup({
       settings = {
@@ -37,7 +32,7 @@ return {
         },
       },
     })
-    
+
     -- Setup for Dart Language Server
     lspconfig.dartls.setup({})
 
