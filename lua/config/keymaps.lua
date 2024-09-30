@@ -1,5 +1,8 @@
 local keymap = vim.keymap
 
+-- Toggle file explorer
+keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle file explorer", noremap = true, silent = true })
+
 -- Write buffer
 keymap.set("n", "<leader>fs", "<cmd>w<cr>", { desc = "Save current buffer" })
 
@@ -43,7 +46,7 @@ end, { desc = "List workspace folders" })
 -- Diagnostic navigation
 keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostics in floating window" })
+keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics in floating window" })
 keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Add diagnostics to location list" })
 
 -- Open code actions using the default lsp UI
