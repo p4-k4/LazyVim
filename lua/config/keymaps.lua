@@ -47,15 +47,16 @@ map('n', '<Space>n', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' 
 map('n', '<Space>d', vim.diagnostic.open_float, { desc = 'Show diagnostics in floating window' })
 map('n', '<Space>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
 
--- Flutter operations layer (f)
-map('n', 'fd', '<cmd>FlutterDevices<cr>', { desc = 'Flutter Devices' })
-map('n', 'fD', '<cmd>FlutterDetach<cr>', { desc = 'Flutter Detach' })
-map('n', 'fr', '<cmd>FlutterRun<cr>', { desc = 'Flutter Run' })
-map('n', 'fq', '<cmd>FlutterQuit<cr>', { desc = 'Flutter Quit' })
-map('n', 'fR', '<cmd>FlutterReload<cr>', { desc = 'Flutter Reload' })
-map('n', 'fs', '<cmd>FlutterRestart<cr>', { desc = 'Flutter Restart' })
-map('n', 'fu', '<cmd>FlutterPubUpgrade<cr>', { desc = 'Flutter Pub Upgrade' })
-map('n', 'fg', '<cmd>FlutterPubGet<cr>', { desc = 'Flutter Pub Get' })
+-- Flutter operations layer (;)
+map('n', ';d', '<cmd>FlutterDevices<cr>', { desc = 'Flutter Devices' })
+map('n', ';D', '<cmd>FlutterDetach<cr>', { desc = 'Flutter Detach' })
+map('n', ';r', '<cmd>FlutterRun<cr>', { desc = 'Flutter Run' })
+map('n', ';m', '<cmd>FlutterRun --enable-experiment=macros<cr>', { desc = 'Flutter Run with macros expiriment' })
+map('n', ';q', '<cmd>FlutterQuit<cr>', { desc = 'Flutter Quit' })
+map('n', ';R', '<cmd>FlutterReload<cr>', { desc = 'Flutter Reload' })
+map('n', ';s', '<cmd>FlutterRestart<cr>', { desc = 'Flutter Restart' })
+map('n', ';u', '<cmd>FlutterPubUpgrade<cr>', { desc = 'Flutter Pub Upgrade' })
+map('n', ';g', '<cmd>FlutterPubGet<cr>', { desc = 'Flutter Pub Get' })
 
 -- Quick access to common commands
 map('n', '<Space><Space>', ':', { desc = 'Enter command mode' })
@@ -72,3 +73,24 @@ map('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 -- Use Tab and Shift-Tab for navigating completion menu
 map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true })
 map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { expr = true })
+
+-- Easy search and replace
+local function search_and_replace()
+  local search = vim.fn.input("Search: ")
+  if search == "" then return end
+  
+  local replace = vim.fn.input("Replace with: ")
+  if replace == "" then return end
+  
+  local confirm = vim.fn.input("Confirm each replacement? (y/n): ")
+  local flags = "ge"
+  if confirm:lower() == "y" then
+    flags = flags .. "c"
+  end
+  
+  local command = string.format("%%s/%s/%s/%s", search:gsub("/", "\\/"), replace:gsub("/", "\\/"), flags)
+  vim.cmd(command)
+end
+
+-- Add this to your existing mappings
+map('n', '<leader>sr', search_and_replace, { desc = 'Search and Replace' })
