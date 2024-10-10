@@ -1,53 +1,74 @@
-local keymap = vim.keymap
+local function map(mode, lhs, rhs, opts)
+  opts = opts or {}
+  opts.silent = opts.silent ~= false
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 
--- Toggle file explorer
-keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle file explorer", noremap = true, silent = true })
+-- Navigation layer (Space)
+map('n', '<Space>h', '<C-w>h', { desc = 'Go to left window' })
+map('n', '<Space>j', '<C-w>j', { desc = 'Go to lower window' })
+map('n', '<Space>k', '<C-w>k', { desc = 'Go to upper window' })
+map('n', '<Space>l', '<C-w>l', { desc = 'Go to right window' })
+map('n', '<Space>n', '5j', { desc = 'Move cursor 5 lines down' })
+map('n', '<Space>e', '5k', { desc = 'Move cursor 5 lines up' })
 
--- Write buffer
-keymap.set("n", "<leader>fs", "<cmd>w<cr>", { desc = "Save current buffer" })
+-- File operations layer (,)
+map('n', ',w', ':w<CR>', { desc = 'Save file' })
+map('n', ',q', ':q<CR>', { desc = 'Quit' })
+map('n', ',x', ':x<CR>', { desc = 'Save and quit' })
+map('n', ',e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle file explorer' })
+map('n', ',f', ':Telescope find_files<CR>', { desc = 'Find files' })
+map('n', ',g', ':Telescope live_grep<CR>', { desc = 'Live grep' })
+map('n', ',b', ':Telescope buffers<CR>', { desc = 'List buffers' })
 
--- Show hover
-keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information" })
+-- LSP functions layer (.)
+map('n', '.d', vim.lsp.buf.definition, { desc = 'Go to definition' })
+map('n', '.D', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
+map('n', '.i', vim.lsp.buf.implementation, { desc = 'List implementations' })
+map('n', '.t', vim.lsp.buf.type_definition, { desc = 'Go to type definition' })
+map('n', '.r', vim.lsp.buf.references, { desc = 'List references' })
+map('n', '.n', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+map('n', '.s', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
+map('n', '.a', vim.lsp.buf.code_action, { desc = 'Code action' })
+map('v', '.a', vim.lsp.buf.code_action, { desc = 'Code action' })
+map('n', '.f', vim.lsp.buf.format, { desc = 'Format document' })
+map('n', '.h', vim.lsp.buf.hover, { desc = 'Show hover information' })
 
--- Jump to definition
-keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Jump to definition" })
-
--- Jump to declaration
-keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Jump to declaration" })
-
--- Show implementations
-keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "List implementations" })
-
--- Jump to type definition
-keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Jump to type definition" })
-
--- Show references
-keymap.set("n", "gr", vim.lsp.buf.references, { desc = "List references" })
-
--- Rename symbol
-keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
-
--- Show signature help
-keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
-
--- Open code actions using the default lsp UI
-keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-
--- Format document
-keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format document" })
-
--- Workspace management
-keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace folder" })
-keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove workspace folder" })
-keymap.set("n", "<leader>wl", function()
+-- Workspace management (on LSP layer)
+map('n', '.wa', vim.lsp.buf.add_workspace_folder, { desc = 'Add workspace folder' })
+map('n', '.wr', vim.lsp.buf.remove_workspace_folder, { desc = 'Remove workspace folder' })
+map('n', '.wl', function()
   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end, { desc = "List workspace folders" })
+end, { desc = 'List workspace folders' })
 
--- Diagnostic navigation
-keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics in floating window" })
-keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Add diagnostics to location list" })
+-- Diagnostic navigation (on Navigation layer)
+map('n', '<Space>p', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+map('n', '<Space>n', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+map('n', '<Space>d', vim.diagnostic.open_float, { desc = 'Show diagnostics in floating window' })
+map('n', '<Space>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
 
--- Open code actions using the default lsp UI
-keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+-- Flutter operations layer (f)
+map('n', 'fd', '<cmd>FlutterDevices<cr>', { desc = 'Flutter Devices' })
+map('n', 'fD', '<cmd>FlutterDetach<cr>', { desc = 'Flutter Detach' })
+map('n', 'fr', '<cmd>FlutterRun<cr>', { desc = 'Flutter Run' })
+map('n', 'fq', '<cmd>FlutterQuit<cr>', { desc = 'Flutter Quit' })
+map('n', 'fR', '<cmd>FlutterReload<cr>', { desc = 'Flutter Reload' })
+map('n', 'fs', '<cmd>FlutterRestart<cr>', { desc = 'Flutter Restart' })
+map('n', 'fu', '<cmd>FlutterPubUpgrade<cr>', { desc = 'Flutter Pub Upgrade' })
+map('n', 'fg', '<cmd>FlutterPubGet<cr>', { desc = 'Flutter Pub Get' })
+
+-- Quick access to common commands
+map('n', '<Space><Space>', ':', { desc = 'Enter command mode' })
+
+-- Alternative mappings for common operations (more Miryoku-friendly)
+map('n', 'H', vim.lsp.buf.hover, { desc = 'Show hover information' })
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Jump to definition' })
+map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Jump to declaration' })
+map('n', 'gi', vim.lsp.buf.implementation, { desc = 'List implementations' })
+map('n', 'gt', vim.lsp.buf.type_definition, { desc = 'Jump to type definition' })
+map('n', 'gr', vim.lsp.buf.references, { desc = 'List references' })
+map('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+
+-- Use Tab and Shift-Tab for navigating completion menu
+map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true })
+map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { expr = true })

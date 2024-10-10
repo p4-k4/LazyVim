@@ -4,6 +4,10 @@ return {
     ensure_installed = { "dart" },
     highlight = {
       enable = true,
+      custom_captures = {
+["function.dart"] = "Identifier",
+      }
     },
   },
+
 }
